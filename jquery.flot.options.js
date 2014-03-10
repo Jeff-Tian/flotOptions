@@ -46,7 +46,7 @@ have the css class 'icon' for you to hook.
         var display = options.optionsControl.display || "none";
         
         var control = "<div id='flot-options-control' style='width: 0; height: 0; left: " + options.optionsControl.position.left + "; top: " + options.optionsControl.position.top + "; position: absolute; display: " + display + ";'>Flot Options</div>";
-        var button = "<div id='flot-options-control-button' style='box-sizing: border-box; position: absolute; left: 29px; top: 0; height: 28px; width: 28px; border: solid 1px #666;  padding: 0; line-height: 28px; border-radius: 5px; cursor: pointer; vertical-align: middle; background-color: #f5f5f5; display: inline-block; text-align: center; -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.15); box-shadow: 0 0 4px rgba(0, 0, 0, 0.15); text-shadow: 1px 1px 5px rgba(100, 100, 100, 0.75);'><div><span class='helper'></span><span class='icon' style='color: #666;'>&#x2699</span></div></div>";
+        var button = "<div id='flot-options-control-button' style='box-sizing: border-box; position: absolute; left: 29px; top: 0; height: 28px; width: 28px; border: solid 1px #666;  padding: 0; line-height: 28px; border-radius: 5px; cursor: pointer; vertical-align: middle; background-color: #f5f5f5; display: inline-block; text-align: center; -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.15); box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);'><div style='height: 100%; line-height: 100%;'><span class='helper'></span><span class='icon' style='color: #666;'>&#x2699</span></div></div>";
 
         var $placeholder = plot.getPlaceholder();
         $("#flot-options-control").remove();
