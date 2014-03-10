@@ -59,15 +59,53 @@ have the css class 'icon' for you to hook.
             "position": "relative"
         });
 
-        $placeholder.find("#flot-options-control-button").click(function() {
-            
+        $placeholder.find("#flot-options-control-button").click(function () {
+            var controlPanel = "<div class='flot-options-control-panel'>" +
+                                    "<div class='popover-title'>Options:</div>" + 
+                                    "<div>" +
+                                        "<label for='test'>" +
+                                            "<input type='checkbox' id='test' value='' />" +
+                                        " Show legend</label>" +
+                                    "</div>" +
+                                "</div>";
+            $(controlPanel).appendTo($placeholder)
+                .css({
+                    "position": "absolute",
+                    "z-index": "999",
+                    "border": "solid 1px #cccccc",
+                    "background-color": "white",
+                    "padding": "10px 15px"
+                })
+                .find(".popover-title").css({
+                    "font-size": "larger",
+                    "font-weight": "bold",
+                    "padding": "0 0 2px 0",
+                    "margin": "0 0 5px 0",
+                    "color": "#421c52",
+                    "border-bottom": "2px solid #421c52"
+                })
+                .end().find("label, input").css({
+                    // This will make input and its label be vertically middle aligned and be in the same
+                    // horizontal line.
+                    "vertical-align": "baseline"
+                });
+
+            $(document).bind("click", closeControlPanelPopup);
+
+            //plot.getOptions().legend.show = !plot.getOptions().legend.show;
+            //plot.setupGrid();
         });
+    }
+    
+    function closeControlPanelPopup() {
+        alert("close control panel");
     }
 
     function shutdown(plot, eventHolder){
         var $placeholder = plot.getPlaceholder();
 
         $placeholder.find("#flot-options-control-button").unbind("click");
+        $(document).unbind("click", closeControlPanelPopup);
     }
     
     var options = {
