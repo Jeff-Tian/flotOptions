@@ -40,6 +40,47 @@ have the css class 'icon' for you to hook.
         plot.hooks.shutdown.push(shutdown);
     }
 
+    $.fn.applyBinding = function (plot) {
+        $.each($(this).find("input"), function (index, input) {
+            var $input = $(input);
+            var expression = $input.attr("expression");
+            var optionValue = eval("plot.getOptions()" + expression);
+
+            switch ($input.attr("type")) {
+                case "checkbox":
+                    if (!!options) {
+                        $input.attr("checked", "checked");
+                    } else {
+                        $input.removeAttr("checked");
+                    }
+                    break;
+                default:
+                    break;
+            }
+        });
+
+        $(this).bind("change", function (event) {
+            var $input = $(event.srcElement);
+            var expression = $input.attr("expression");
+
+            var newValue = $input.val();
+
+            switch ($input.attr("type")) {
+                case "checkbox":
+                    newValue = !!$input.prop("checked");
+                    break;
+                default:
+                    break;
+            }
+
+            eval("plot.getOptions()" + expression + " = " + newValue);
+
+            plot.setupGrid();
+        });
+
+        return this;
+    };
+
     function drawFlotOptionsStarterButton(plot, canvascontext) {
         var options = plot.getOptions();
 
@@ -61,41 +102,43 @@ have the css class 'icon' for you to hook.
 
         var controlPanel = "<div class='flot-options-control-panel'>" +
                                     "<div class='popover-title'>Options:</div>" +
-                                    "<div>" +
-                                        "<label for='test'>" +
-                                            "<input type='checkbox' id='test' value='' />" +
+                                    "<div><form>" +
+                                        "<label for='chk-show-legend'>" +
+                                            "<input type='checkbox' id='chk-show-legend' expression='.legend.show' />" +
                                         " Show legend</label>" +
-                                    "</div>" +
+                                    "</form></div>" +
                                 "</div>";
 
         var $controlPanel = $(controlPanel);
 
         $controlPanel.appendTo("#flot-options-control")
-        .css({
-            "position": "absolute",
-            "z-index": "999",
-            "border": "solid 1px #cccccc",
-            "background-color": "white",
-            "padding": "10px 15px",
-            "left": "28px",
-            "top": "0",
-            "display": "none"
-        })
-        .bind("click", dontCloseControlPanelPopup)
-        .find(".popover-title").css({
-            "font-size": "larger",
-            "font-weight": "bold",
-            "padding": "0 0 2px 0",
-            "margin": "0 0 5px 0",
-            "color": "#421c52",
-            "border-bottom": "2px solid #421c52"
-        })
-        .end().find("label, input").css({
-            // This will make input and its label be vertically middle aligned and be in the same
-            // horizontal line.
-            "vertical-align": "baseline",
-            "white-space": "nowrap"
-        });
+            .css({
+                "position": "absolute",
+                "z-index": "999",
+                "border": "solid 1px #cccccc",
+                "background-color": "white",
+                "padding": "10px 15px",
+                "left": "28px",
+                "top": "0",
+                "display": "none"
+            })
+            .bind("click", dontCloseControlPanelPopup)
+            .find(".popover-title").css({
+                "font-size": "larger",
+                "font-weight": "bold",
+                "padding": "0 0 2px 0",
+                "margin": "0 0 5px 0",
+                "color": "#421c52",
+                "border-bottom": "2px solid #421c52"
+            })
+            .end().find("label, input").css({
+                // This will make input and its label be vertically middle aligned and be in the same
+                // horizontal line.
+                "vertical-align": "baseline",
+                "white-space": "nowrap"
+            })
+            .end()
+            .find("form").applyBinding(plot);
 
         $(document).bind("click", closeControlPanelPopup);
 
