@@ -40,7 +40,7 @@ have the css class 'icon' for you to hook.
         plot.hooks.shutdown.push(shutdown);
     }
 
-    $.fn.applyBinding = function (plot) {
+    $.fn.bindToPlot = function (plot) {
         $.each($(this).find("input"), function (index, input) {
             var $input = $(input);
             var expression = $input.attr("expression");
@@ -138,7 +138,7 @@ have the css class 'icon' for you to hook.
                 "white-space": "nowrap"
             })
             .end()
-            .find("form").applyBinding(plot);
+            .find("form").bindToPlot(plot);
 
         $(document).bind("click", closeControlPanelPopup);
 
